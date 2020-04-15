@@ -3,11 +3,14 @@ import './App.css';
 import {TextField, Button } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import io from 'socket.io-client';
-import axios from 'axios';
+import PersonIcon from '@material-ui/icons/Person';
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
+import LockIcon from '@material-ui/icons/Lock';
+import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 
 const darkTheme = createMuiTheme({
   palette: {
-    type: 'dark',
+    type: 'light',
   },
 });
 
@@ -35,10 +38,6 @@ function App() {
   const [questionAnswer, setQuestionAnswer] = useState('');
   const [gameInProgress, setGameInProgress] = useState(Boolean);
   const [gameAnswers, setGameAnswers] = useState<{ question: string, answer: string}[][]>([]);
-
-
-  
-
 
   useEffect(() => {
     const setupSocket = async () => {
@@ -151,9 +150,10 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <div className="App">
         <div style={{width: "100%"}}>
-        { (gameOwner !== username && !gameInProgress && playerInLobby) && 
+        {/* { (gameOwner !== username && !gameInProgress && playerInLobby) && 
           <div> Waiting for {gameOwner} to start the game </div>
         }
+
         {
           (!gameInProgress && gameAnswers[0] !== undefined) &&
           <div style={{display: "flex", textAlign: "left"}}>
@@ -168,6 +168,7 @@ function App() {
             })}
             </div>    
         }
+
         { gameInProgress &&
         <div style={{flexDirection: "row", display: "flex", width: "100%"}}>
           <div className="members" style={{width: "10%"}}>
@@ -189,21 +190,57 @@ function App() {
             </div>
           </div>
           </div>
-        }
+        } */}
+
         { !playerInLobby &&
-          <React.Fragment>
-            <div className="textFields" style={{display: "inline-grid", padding: "16px" }}> 
-              <TextField required style={{margin: '12px'}} color="primary" id="standard-basic" label="LobbyName" onChange={(e) => setLobbyName(e.target.value) } value={lobbyName}/>
-              <TextField required style={{margin: '12px'}} color="primary" id="standard-basic" label="Username" onChange={(e) => setUserName(e.target.value) } value={username}/>
-              <TextField style={{margin: '12px'}} color="primary" id="standard-basic" label="Password" onChange={(e) => setPassword(e.target.value) } value={password}/>
-              {error && <div style={{color: 'red', fontSize: "14px", margin: '12px'}}>{errorText}</div>}
-            </div>
+          <div className="createOrJoinLobbyContainer">
+            <div className="introductionSection"> 
+              <div className="introTitleContainer">
+                <div className="introIcon"><HelpOutlineIcon></HelpOutlineIcon></div>
+                <div className="introTitle">Who What Where</div>
+              </div>
+              <div className="introContent"> 
+                Pellentesque mollis arcu ac quam interdum scelerisque. <br/><br/>
+                Phasellus sollicitudin purus facilisis mollis tincidunt. 
+                Aenean laoreet cursus laoreet. Interdum et malesuada fames ac ante ipsum primis in faucibus. 
+                Sed risus lacus, ornare sit amet rutrum non, egestas a ipsum. 
+                Suspendisse potenti 
+              </div>
+              <div className="divider"></div>
+            </div> 
+            <div className="createOrJoinSection">
             <div className="createJoin"> 
-              <Button className="button" style={{margin: '4px'}} color="primary" onClick={() => joinGame()}> Join Game </Button>
-              <Button className="button" style={{margin: '4px'}} color="primary" onClick={() => createGame()}> Create Game </Button>
+              <div className="textFieldContainer">
+                <div className="textFieldTags">
+                  <PersonIcon className="textFieldIcon"></PersonIcon>
+                  <div className="textFieldTitle">Username *</div>
+                </div>
+                <TextField className="textField" required color="primary" variant="outlined" id="standard-basic" onChange={(e) => setLobbyName(e.target.value) } value={lobbyName}/>
+              </div>
+              <div className="textFieldContainer">
+                <div className="textFieldTags">
+                  <MeetingRoomIcon className="textFieldIcon"></MeetingRoomIcon>
+                  <div className="textFieldTitle">Lobby Name *</div>
+                </div>
+                <TextField className="textField" required color="primary" variant="outlined" id="standard-basic" onChange={(e) => setUserName(e.target.value) } value={username}/>
+              </div>
+              <div className="textFieldContainer">
+                <div className="textFieldTags">
+                  <LockIcon className="textFieldIcon"></LockIcon>
+                  <div className="textFieldTitle">Password</div>
+                </div>
+                <TextField className="textField" color="primary" variant="outlined" id="standard-basic" onChange={(e) => setPassword(e.target.value) } value={password}/>
+              </div>             
+              <div className="createJoinButtonsContainer">
+                {error && <div style={{color: 'red', fontSize: "14px", margin: '12px'}}>{errorText}</div>}
+                <Button className="createButton" color="primary" onClick={() => joinGame()}> Join Game </Button>
+                <Button className="joinButton" color="primary" onClick={() => createGame()}> Create Game </Button>
+              </div>
             </div>
-          </React.Fragment>
+            </div>
+          </div>
         }       
+
         { (gameOwner !== '' && gameOwner === username && !gameInProgress) && 
           <Button className="button" style={{margin: '4px'}} color="primary" onClick={() => startGame()}> Start Game </Button>
         }
