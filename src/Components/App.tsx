@@ -3,12 +3,10 @@ import './App.css';
 import {TextField, Button } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import io from 'socket.io-client';
-import PersonIcon from '@material-ui/icons/Person';
-import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
-import LockIcon from '@material-ui/icons/Lock';
 import UserIcon from '../icons/user.svg';
 import LobbyIcon from '../icons/lobby.svg';
 import PasswordIcon from '../icons/password.svg';
+import QuestionIcon from '../icons/question.svg';
 
 const darkTheme = createMuiTheme({
   palette: {
@@ -171,7 +169,7 @@ function App() {
 
         {
           (!gameInProgress && gameAnswers[0] !== undefined) &&
-          <div style={{display: "flex", textAlign: "left"}}>
+          <div style={{display: "flex", textAlign: "left", color: 'white', height: '100vh'}}>
             {gameAnswers.map((answer) => {
               return (
                 <ul style={{listStyleType: 'none'}}>
@@ -185,7 +183,7 @@ function App() {
         }
 
         { gameInProgress &&
-        <div style={{flexDirection: "row", display: "flex", width: "100%"}}>
+        <div style={{flexDirection: "row", display: "flex", width: "100%", height: '100vh'}}>
           <div className="members" style={{width: "10%"}}>
             Players
             <ul style={{listStyleType: 'none'}}>
@@ -196,11 +194,11 @@ function App() {
               })}
             </ul>
           </div>
-          <div style={{padding: "32px", width: "90%", boxSizing: "border-box"}}>
+          <div style={{padding: "32px", width: "90%", boxSizing: "border-box", color: 'white'}}>
             <div style={{fontSize: "128px", paddingBottom: "64px"}}>{currentQuestion}</div>
             {error && <div style={{color: 'red', fontSize: "14px", margin: '12px'}}>{errorText}</div>}
             <div className="createJoin" style={{padding: "16px", display: "flex", justifyContent: "center", alignItems: "center"}}> 
-              <TextField style={{margin: '12px'}} color="primary" id="standard-basic" label="Answer" onChange={(e) => setQuestionAnswer(e.target.value) } value={questionAnswer}/>
+            <TextField autoComplete="off" className="textField" required color="primary" variant="outlined" id="standard-basic" onChange={(e) => setQuestionAnswer(e.target.value) } value={questionAnswer}/>
               <Button className="button" style={{margin: '4px'}} color="primary" onClick={() => submitAnswer()}> Submit </Button>
             </div>
           </div>
@@ -209,9 +207,10 @@ function App() {
 
         { !playerInLobby &&
           <div className="createOrJoinLobbyContainer">
+
             <div className="introductionSection"> 
               <div className="introTitleContainer">
-                <div className="introIcon">?!</div>
+                <img className="introIcon" src={QuestionIcon} />
                 <div className="introTitle">Who What Where</div>
               </div>
               <div className="introContent"> 
@@ -222,42 +221,41 @@ function App() {
               </div>
               <div className="divider"></div>
             </div> 
+
             <div className="createOrJoinSection">
-            <div className="createJoin"> 
-              <div className="textFieldContainer">
-                <div className="textFieldTags">
-                  <img className="textFieldIcon" src={UserIcon} />
-                  <div className="textFieldTitle">Username *</div>
+              <div className="createJoin"> 
+                <div className="textFieldContainer">
+                  <div className="textFieldTags">
+                    <img className="textFieldIcon" src={UserIcon} />
+                    <div className="textFieldTitle">Username *</div>
+                  </div>
+                  <TextField autoComplete="off" className="textField" required color="primary" variant="outlined" id="standard-basic" onChange={(e) => setUserName(e.target.value) } value={username}/>
+                  <div className="textFieldError2">{lobbyError.error && lobbyError.message}</div>
                 </div>
-                <TextField autoComplete="off" className="textField" required color="primary" variant="outlined" id="standard-basic" onChange={(e) => setUserName(e.target.value) } value={username}/>
-                <div className="textFieldError"></div>
-                { lobbyError.error && <div className="textFieldError2">{lobbyError.message}</div>}
-              </div>
-              <div className="textFieldContainer">
-                <div className="textFieldTags">
-                <img className="textFieldIcon" src={LobbyIcon} />
-                  <div className="textFieldTitle">Lobby Name *</div>
+                <div className="textFieldContainer">
+                  <div className="textFieldTags">
+                  <img className="textFieldIcon" src={LobbyIcon} />
+                    <div className="textFieldTitle">Lobby Name *</div>
+                  </div>
+                  <TextField autoComplete="off" className="textField" required color="primary" variant="outlined" id="standard-basic" onChange={(e) => setLobbyName(e.target.value) } value={lobbyName}/>
+                  <div className="textFieldError2">{usernameError.error && usernameError.message}</div>
                 </div>
-                <TextField autoComplete="off" className="textField" required color="primary" variant="outlined" id="standard-basic" onChange={(e) => setLobbyName(e.target.value) } value={lobbyName}/>
-                <div className="textFieldError"></div>
-                { usernameError.error && <div className="textFieldError2">{usernameError.message}</div>}
-              </div>
-              <div className="textFieldContainer">
-                <div className="textFieldTags">
-                  <img className="textFieldIcon" src={PasswordIcon} />
-                  <div className="textFieldTitle">Password</div>
+                <div className="textFieldContainer">
+                  <div className="textFieldTags">
+                    <img className="textFieldIcon" src={PasswordIcon} />
+                    <div className="textFieldTitle">Password</div>
+                  </div>
+                  <TextField autoComplete="off" type="password" className="textField" color="primary" variant="outlined" id="standard-basic" onChange={(e) => setPassword(e.target.value) } value={password}/>
+                  <div className="textFieldError2">{passwordError.error && passwordError.message}</div>
+                </div>             
+                <div className="createJoinButtonsContainer">
+                  {error && <div style={{color: 'red', fontSize: "14px", margin: '12px'}}>{errorText}</div>}
+                  <Button className="createButton" color="primary" onClick={() => createGame()}> Create Game </Button>
+                  <Button className="joinButton" color="primary" onClick={() => joinGame()}> Join Game </Button>
                 </div>
-                <TextField autoComplete="off" type="password" className="textField" color="primary" variant="outlined" id="standard-basic" onChange={(e) => setPassword(e.target.value) } value={password}/>
-                <div className="textFieldError"></div>
-                { passwordError.error && <div className="textFieldError2">{passwordError.message}</div>}
-              </div>             
-              <div className="createJoinButtonsContainer">
-                {error && <div style={{color: 'red', fontSize: "14px", margin: '12px'}}>{errorText}</div>}
-                <Button className="createButton" color="primary" onClick={() => createGame()}> Create Game </Button>
-                <Button className="joinButton" color="primary" onClick={() => joinGame()}> Join Game </Button>
               </div>
             </div>
-            </div>
+
           </div>
         }       
 

@@ -73,7 +73,7 @@ body {
 }
 
 .introIcon {
-  height: 100%;
+  filter: invert(100%);
   justify-content: center;
   align-items: center;
   display: flex;
@@ -187,16 +187,18 @@ body {
 }
 
 .textFieldError {
-  width: 40%;
+  width: 45%;
   min-height: 20px;
 }
 
 .textFieldError2 {
-  width: 60%;
   color: #ecbebe;
   min-height: 20px;
+  width: 100%;
   font-size: 13px;
   font-family: RedHat;
+  padding-top: 4px;
+  padding-left: 45%;
 }
 
 .textFieldIcon {
@@ -278,6 +280,9 @@ body {
     flex-wrap: wrap;
     height: auto;
   }
+  .textFieldError2 {
+    padding-left: 35%;
+  }
   .divider {
     bottom: 0;
     height: 8px;
@@ -303,7 +308,10 @@ body {
     padding-top: 64px;
   }
   .textFieldTags {
-    width: 30%;
+    width: 35%;
+  }
+  .textFieldError {
+    width: 35%;
   }
 }
 
@@ -319,6 +327,12 @@ body {
   .textFieldTags {
     width: 45%;
   }
+  .textFieldError {
+    width: 45%;
+  }
+  .textFieldError2 {
+    padding-left: 45%;
+  }
 }
 
 /* Small - Extra Small */
@@ -326,7 +340,12 @@ body {
   .createOrJoinLobbyContainer {
     padding: 24px;
   }
-  .createOrJoinSection {
+  .textFieldError {
+    width: 100%;
+    min-height: 0px;
+  }
+  .textFieldError2 {
+    padding-left: 0%;
   }
 
   .createJoinButtonsContainer {
@@ -344,9 +363,10 @@ body {
 
   .introTitle {
     font-size: 10vw;
+    line-height: 60px;
   }
   .introIcon {
-    font-size: 22vw;
+    width: 30vw;
     padding-right: 20px;
   }
   .textFieldContainer {
