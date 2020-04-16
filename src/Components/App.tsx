@@ -3,11 +3,16 @@ import './App.css';
 import {TextField, Button } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import io from 'socket.io-client';
-import axios from 'axios';
+import PersonIcon from '@material-ui/icons/Person';
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
+import LockIcon from '@material-ui/icons/Lock';
+import UserIcon from '../icons/user.svg';
+import LobbyIcon from '../icons/lobby.svg';
+import PasswordIcon from '../icons/password.svg';
 
 const darkTheme = createMuiTheme({
   palette: {
-    type: 'dark',
+    type: 'light',
   },
 });
 
@@ -36,9 +41,9 @@ function App() {
   const [gameInProgress, setGameInProgress] = useState(Boolean);
   const [gameAnswers, setGameAnswers] = useState<{ question: string, answer: string}[][]>([]);
 
-
-  
-
+  const [lobbyError, setLobbyError] = useState({error: false, message: ''});
+  const [usernameError, setUserNameError] = useState({error: false, message: ''});
+  const [passwordError, setPasswordError] = useState({error: false, message: ''});
 
   useEffect(() => {
     const setupSocket = async () => {
@@ -104,13 +109,22 @@ function App() {
 
   const createGame = () => {
     if (lobbyName === '' || username === '') {
-      setError(true);
-      setErrorText('Lobbyname / Username is required');
+      if (!lobbyName) {
+        setLobbyError({error:true, message: "Lobby Name cannot be empty"})
+      } else {
+        setLobbyError({error:false, message: ''})
+      }
+      if (!username) {
+        setUserNameError({error:true, message: "Username cannot be empty"})
+      } else {
+        setUserNameError({error:true, message: ''})
+      }
       return false;
     }
 
-    setError(false);
-    setErrorText('');
+    setLobbyError({error: false, message: ''});
+    setUserNameError({error: false, message: ''});
+    setPasswordError({error: false, message: ''});
     const createGameCredentials = { lobbyName, username, password };
     console.log('trying')
     socket.emit('createGame', createGameCredentials)
@@ -154,6 +168,7 @@ function App() {
         { (gameOwner !== username && !gameInProgress && playerInLobby) && 
           <div> Waiting for {gameOwner} to start the game </div>
         }
+
         {
           (!gameInProgress && gameAnswers[0] !== undefined) &&
           <div style={{display: "flex", textAlign: "left"}}>
@@ -168,6 +183,7 @@ function App() {
             })}
             </div>    
         }
+
         { gameInProgress &&
         <div style={{flexDirection: "row", display: "flex", width: "100%"}}>
           <div className="members" style={{width: "10%"}}>
@@ -190,20 +206,61 @@ function App() {
           </div>
           </div>
         }
+
         { !playerInLobby &&
-          <React.Fragment>
-            <div className="textFields" style={{display: "inline-grid", padding: "16px" }}> 
-              <TextField required style={{margin: '12px'}} color="primary" id="standard-basic" label="LobbyName" onChange={(e) => setLobbyName(e.target.value) } value={lobbyName}/>
-              <TextField required style={{margin: '12px'}} color="primary" id="standard-basic" label="Username" onChange={(e) => setUserName(e.target.value) } value={username}/>
-              <TextField style={{margin: '12px'}} color="primary" id="standard-basic" label="Password" onChange={(e) => setPassword(e.target.value) } value={password}/>
-              {error && <div style={{color: 'red', fontSize: "14px", margin: '12px'}}>{errorText}</div>}
-            </div>
+          <div className="createOrJoinLobbyContainer">
+            <div className="introductionSection"> 
+              <div className="introTitleContainer">
+                <div className="introIcon">?!</div>
+                <div className="introTitle">Who What Where</div>
+              </div>
+              <div className="introContent"> 
+                An Interactive Story building game to play with friends. <br/><br/>
+                Challenge your friends to a game of Who, What, Where? An Ad-libs inspired interactive story building game 
+                where you and your friends answer a series of 9 questions. The answers get mashed together to create wild stories. <br/><br/>
+                <div className="extraPlayerText">Best played with 3-9 players </div>
+              </div>
+              <div className="divider"></div>
+            </div> 
+            <div className="createOrJoinSection">
             <div className="createJoin"> 
-              <Button className="button" style={{margin: '4px'}} color="primary" onClick={() => joinGame()}> Join Game </Button>
-              <Button className="button" style={{margin: '4px'}} color="primary" onClick={() => createGame()}> Create Game </Button>
+              <div className="textFieldContainer">
+                <div className="textFieldTags">
+                  <img className="textFieldIcon" src={UserIcon} />
+                  <div className="textFieldTitle">Username *</div>
+                </div>
+                <TextField autoComplete="off" className="textField" required color="primary" variant="outlined" id="standard-basic" onChange={(e) => setUserName(e.target.value) } value={username}/>
+                <div className="textFieldError"></div>
+                { lobbyError.error && <div className="textFieldError2">{lobbyError.message}</div>}
+              </div>
+              <div className="textFieldContainer">
+                <div className="textFieldTags">
+                <img className="textFieldIcon" src={LobbyIcon} />
+                  <div className="textFieldTitle">Lobby Name *</div>
+                </div>
+                <TextField autoComplete="off" className="textField" required color="primary" variant="outlined" id="standard-basic" onChange={(e) => setLobbyName(e.target.value) } value={lobbyName}/>
+                <div className="textFieldError"></div>
+                { usernameError.error && <div className="textFieldError2">{usernameError.message}</div>}
+              </div>
+              <div className="textFieldContainer">
+                <div className="textFieldTags">
+                  <img className="textFieldIcon" src={PasswordIcon} />
+                  <div className="textFieldTitle">Password</div>
+                </div>
+                <TextField autoComplete="off" type="password" className="textField" color="primary" variant="outlined" id="standard-basic" onChange={(e) => setPassword(e.target.value) } value={password}/>
+                <div className="textFieldError"></div>
+                { passwordError.error && <div className="textFieldError2">{passwordError.message}</div>}
+              </div>             
+              <div className="createJoinButtonsContainer">
+                {error && <div style={{color: 'red', fontSize: "14px", margin: '12px'}}>{errorText}</div>}
+                <Button className="createButton" color="primary" onClick={() => createGame()}> Create Game </Button>
+                <Button className="joinButton" color="primary" onClick={() => joinGame()}> Join Game </Button>
+              </div>
             </div>
-          </React.Fragment>
+            </div>
+          </div>
         }       
+
         { (gameOwner !== '' && gameOwner === username && !gameInProgress) && 
           <Button className="button" style={{margin: '4px'}} color="primary" onClick={() => startGame()}> Start Game </Button>
         }

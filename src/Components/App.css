@@ -1,0 +1,367 @@
+@font-face {
+  font-family: "RedHatBold";
+  src: local("RedHatBold"), url(../fonts/RedHatDisplay-Bold.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "RedHatBlack";
+  src: local("RedHat"), url(../fonts/RedHatDisplay-Black.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "RedHatMedium";
+  src: local("RedHat"), url(../fonts/RedHatDisplay-Medium.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "RedHat";
+  src: local("RedHat"), url(../fonts/RedHatDisplay-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto";
+  src: local("Roboto"), url(../fonts/Roboto-Regular.ttf) format("truetype");
+}
+
+body {
+  margin: 0;
+}
+
+.App {
+  text-align: center;
+  background-color: #000000;
+  font-family: RedHatBold !important;
+}
+
+.gameLobbyNameFieldInput {
+  color: white !important;
+}
+
+.button {
+  background-color: white !important;
+}
+
+.createOrJoinLobbyContainer {
+  display: flex;
+  height: 100vh;
+  padding: 128px;
+  box-sizing: border-box;
+}
+
+.introductionSection {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  color: white;
+  flex-wrap: wrap;
+  padding: 56px;
+  box-sizing: border-box;
+}
+
+.introTitleContainer {
+  height: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 80px;
+  padding-top: 0px;
+  padding-bottom: 32px;
+  box-sizing: border-box;
+}
+
+.introIcon {
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  color: #9fc7de;
+  font-size: 200px;
+  font-family: RedHatBlack;
+  padding-right: 64px;
+}
+
+.introIcon svg {
+  font-size: 220px;
+  color: #9fc7de;
+}
+
+.introTitle {
+  width: 50%;
+  word-spacing: 100000px;
+  line-height: 90px;
+  font-size: 72px;
+  font-weight: bolder;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  font-family: RedHatBlack;
+}
+
+.introContent {
+  height: 50%;
+  width: 100%;
+  font-size: 21px;
+  text-align: justify;
+  line-height: 32px;
+  font-family: RedHat;
+  padding: 80px;
+  padding-top: 20px;
+  padding-bottom: 0px;
+}
+
+.extraPlayerText {
+  padding-top: 00px;
+  font-family: RedHatMedium;
+}
+
+.divider {
+  background-color: #9fc7de;
+  border-radius: 8px;
+  position: absolute;
+  right: 0;
+  height: 100%;
+  width: 8px;
+}
+
+.createOrJoinSection {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 56px;
+  box-sizing: border-box;
+}
+
+.createJoin {
+  width: 100%;
+  padding-left: 40px;
+}
+
+.createJoinButtonsContainer {
+  padding-top: 24px;
+  box-sizing: border-box;
+}
+
+.textFieldContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+  flex-wrap: wrap;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.textField {
+  width: 40%;
+  font-family: Roboto !important;
+}
+
+.textField input {
+  height: 4px;
+  background-color: white;
+  color: black;
+  border-radius: 20px;
+}
+
+.textField :hover {
+  border-radius: 20px;
+}
+
+.textField .Mui-focused fieldset {
+  border-radius: 16px;
+  border: 3px solid #3c81b9 !important;
+}
+
+.textFieldTags {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  width: 45%;
+}
+
+.textFieldError {
+  width: 40%;
+  min-height: 20px;
+}
+
+.textFieldError2 {
+  width: 60%;
+  color: #ecbebe;
+  min-height: 20px;
+  font-size: 13px;
+  font-family: RedHat;
+}
+
+.textFieldIcon {
+  font-size: 42px !important;
+  filter: invert(100%);
+  height: 44px;
+  padding-right: 36px;
+}
+
+.textField :hover fieldset {
+  border-radius: 16px;
+  border: 2px solid #3c81b9 !important;
+}
+
+.textField :focus-within fieldset {
+  border-radius: 16px;
+  border: 3px solid #3c81b9 !important;
+}
+
+.textFieldTitle {
+  padding-right: 24px;
+}
+
+.createButton {
+  width: 30% !important;
+  margin: 12px !important;
+  background-color: #9fc7de !important;
+  color: black !important;
+  font-weight: bold !important;
+  font-family: RedHat !important;
+  text-transform: none !important;
+  border: 3px solid #9fc7de !important;
+  border-radius: 22px !important;
+  font-size: 15px !important;
+}
+
+.joinButton {
+  width: 30% !important;
+  margin: 12px !important;
+  background-color: #000000 !important;
+  color: white !important;
+  border: 3px solid #9fc7de !important;
+  font-weight: bold !important;
+  font-family: RedHat !important;
+  text-transform: none !important;
+  border-radius: 22px !important;
+  font-size: 15px !important;
+}
+
+/* Medium-Big Screen */
+@media (max-width: 1767px) {
+  .createOrJoinLobbyContainer {
+    padding: 96px;
+  }
+  .introductionSection {
+    padding: 32px;
+  }
+  .createOrJoinSection {
+    padding: 32px;
+  }
+}
+
+/* Medium-Small Screen */
+@media (max-width: 1562px) {
+  .createOrJoinLobbyContainer {
+    padding: 64px;
+  }
+  .introductionSection {
+    padding: 16px;
+  }
+  .createOrJoinSection {
+    padding: 16px;
+  }
+}
+
+/* Medium-Small Screen */
+@media (max-width: 1270px) {
+  .createOrJoinLobbyContainer {
+    flex-wrap: wrap;
+    height: auto;
+  }
+  .divider {
+    bottom: 0;
+    height: 8px;
+    width: 100%;
+  }
+  .createJoin {
+    padding: 0px;
+  }
+  .introTitleContainer {
+    height: auto;
+    padding: 16px;
+  }
+  .introContent {
+    height: auto;
+    padding: 16px;
+  }
+  .introductionSection {
+    width: 100%;
+    padding-bottom: 64px;
+  }
+  .createOrJoinSection {
+    width: 100%;
+    padding-top: 64px;
+  }
+  .textFieldTags {
+    width: 30%;
+  }
+}
+
+/* Medium-Small Screen */
+@media (max-width: 890px) {
+  .textFieldTags {
+    width: 35%;
+  }
+}
+
+/* Small-Small Screen */
+@media (max-width: 762px) {
+  .textFieldTags {
+    width: 45%;
+  }
+}
+
+/* Small - Extra Small */
+@media (max-width: 650px) {
+  .createOrJoinLobbyContainer {
+    padding: 24px;
+  }
+  .createOrJoinSection {
+  }
+
+  .createJoinButtonsContainer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-top: 0px;
+  }
+  .joinButton {
+    flex-basis: 70%;
+  }
+  .createButton {
+    flex-basis: 70%;
+  }
+
+  .introTitle {
+    font-size: 10vw;
+  }
+  .introIcon {
+    font-size: 22vw;
+    padding-right: 20px;
+  }
+  .textFieldContainer {
+    flex-wrap: wrap;
+    padding-bottom: 24px;
+    padding-top: 0px;
+  }
+  .textFieldTags {
+    flex-basis: 70%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 16px;
+  }
+  .textField {
+    flex-basis: 70%;
+  }
+}
