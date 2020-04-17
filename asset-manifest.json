@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/whowhatwhere-client/static/css/main.7ba94be6.chunk.css",
-    "main.js": "/whowhatwhere-client/static/js/main.a5cc6152.chunk.js",
-    "main.js.map": "/whowhatwhere-client/static/js/main.a5cc6152.chunk.js.map",
+    "main.js": "/whowhatwhere-client/static/js/main.f588e8c7.chunk.js",
+    "main.js.map": "/whowhatwhere-client/static/js/main.f588e8c7.chunk.js.map",
     "runtime-main.js": "/whowhatwhere-client/static/js/runtime-main.c728146d.js",
     "runtime-main.js.map": "/whowhatwhere-client/static/js/runtime-main.c728146d.js.map",
     "static/js/2.2fac7085.chunk.js": "/whowhatwhere-client/static/js/2.2fac7085.chunk.js",
     "static/js/2.2fac7085.chunk.js.map": "/whowhatwhere-client/static/js/2.2fac7085.chunk.js.map",
     "index.html": "/whowhatwhere-client/index.html",
-    "precache-manifest.5b631d9b276b3c4ea98e30927172fad9.js": "/whowhatwhere-client/precache-manifest.5b631d9b276b3c4ea98e30927172fad9.js",
+    "precache-manifest.63af8770bcace2cba8d8ed60385d78eb.js": "/whowhatwhere-client/precache-manifest.63af8770bcace2cba8d8ed60385d78eb.js",
     "service-worker.js": "/whowhatwhere-client/service-worker.js",
     "static/css/main.7ba94be6.chunk.css.map": "/whowhatwhere-client/static/css/main.7ba94be6.chunk.css.map",
     "static/js/2.2fac7085.chunk.js.LICENSE.txt": "/whowhatwhere-client/static/js/2.2fac7085.chunk.js.LICENSE.txt",
@@ -22,6 +22,6 @@
     "static/js/runtime-main.c728146d.js",
     "static/js/2.2fac7085.chunk.js",
     "static/css/main.7ba94be6.chunk.css",
-    "static/js/main.a5cc6152.chunk.js"
+    "static/js/main.f588e8c7.chunk.js"
   ]
 }

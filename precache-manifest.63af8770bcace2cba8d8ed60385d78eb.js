@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "bad0fd49357e7de6489407062cad4c9c",
+    "revision": "2abd10ae6470dc02b4c01607eda96c86",
     "url": "/whowhatwhere-client/index.html"
   },
   {
-    "revision": "7e47d8dff3624c20469b",
+    "revision": "b95d0cdf540214bdd884",
     "url": "/whowhatwhere-client/static/css/main.7ba94be6.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/whowhatwhere-client/static/js/2.2fac7085.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "7e47d8dff3624c20469b",
-    "url": "/whowhatwhere-client/static/js/main.a5cc6152.chunk.js"
+    "revision": "b95d0cdf540214bdd884",
+    "url": "/whowhatwhere-client/static/js/main.f588e8c7.chunk.js"
   },
   {
     "revision": "5177dbb6ed638c012b6e",
