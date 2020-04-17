@@ -7,7 +7,9 @@ import UserIcon from '../icons/user.svg';
 import LobbyIcon from '../icons/lobby.svg';
 import PasswordIcon from '../icons/password.svg';
 import QuestionIcon from '../icons/question.svg';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import Avatar from 'avataaars';
+import { randomAvatar } from '../randomav';
+import { GameMembers } from './types';
 
 const darkTheme = createMuiTheme({
   palette: {
@@ -34,11 +36,13 @@ function App() {
   const [error, setError] = useState(false);
   const [errorText, setErrorText] = useState('');
   const [gameOwner, setGameOwner] = useState('');
-  const [gameMembers, setGameMembers] = useState<string[]>([]);
+  const [gameMembers, setGameMembers] = useState<GameMembers[]>([]);
+  const [gameWaitingRoom, setGameWaitingRoom] = useState<GameMembers[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState('');
   const [questionAnswer, setQuestionAnswer] = useState('');
   const [gameInProgress, setGameInProgress] = useState(Boolean);
   const [gameAnswers, setGameAnswers] = useState<{ question: string, answer: string}[][]>([]);
+  const [questionIndex, setQuestionIndex ]= useState(0);
 
   const [lobbyError, setLobbyError] = useState({error: false, message: ''});
   const [usernameError, setUserNameError] = useState({error: false, message: ''});
@@ -52,12 +56,12 @@ function App() {
   // Socket listener
   useEffect(() => {
     const setupSocket = async () => {
-      socket = io('https://lb.ltng.link');
+      socket = io('http://localhost:3005');
       console.log(socket);
   
       
       // If game created, hide the menu
-      socket.on('gameCreated', (response: {gameOwner: string, joined: boolean, members: string[]}) => {
+      socket.on('gameCreated', (response: {gameOwner: string, joined: boolean, members: GameMembers[]}) => {
         if (response.joined) {
           setPlayerInLobby(true);
           setGameOwner(response.gameOwner);
@@ -66,24 +70,28 @@ function App() {
       })
   
       // on game join
-      socket.on('gameJoined', (response: {gameOwner: string, joined: boolean, members: string[]}) => {
+      socket.on('gameJoined', (response: {gameOwner: string, joined: boolean, members: GameMembers[], waitingRoom: GameMembers[]}) => {
         if (response.joined) {
           setPlayerInLobby(true);
           setGameOwner(response.gameOwner);
           setGameMembers(response.members)
+          setGameWaitingRoom(response.waitingRoom);
         }
       })
   
       // when player join update members
-      socket.on('playerJoined', (response : { members: string[]}) => {
-        console.log(response)
+      socket.on('playerJoined', (response : { members: GameMembers[], waitingRoom: GameMembers[]}) => {
         setGameMembers(response.members);
+        setGameWaitingRoom(response.waitingRoom);
       });
   
       // when game started
-      socket.on('gameStarted', (response: { gameStarted: boolean, question: string }) => {
+      socket.on('gameStarted', (response: { gameStarted: boolean, question: string, questionIndex: number, members: GameMembers[], waitingRoom: GameMembers[] }) => {
         setGameInProgress(response.gameStarted)
         setCurrentQuestion(response.question);
+        setQuestionIndex(response.questionIndex);
+        setGameMembers(response.members);
+        setGameWaitingRoom(response.waitingRoom);
       })
   
       socket.on('allQuestionsAnswered', (response: { question: string, answer: string}[][]) => {
@@ -101,11 +109,26 @@ function App() {
   
         setGameAnswers(questionTable)
         setGameInProgress(false);
+        setQuestionIndex(0);
       });
   
-      socket.on('newQuestion', (response: {question: string}) => {
-        console.log(response);
+      socket.on('newQuestion', (response: {question: string, questionIndex: number}) => {
+  
         setCurrentQuestion(response.question);
+        setQuestionIndex(response.questionIndex);
+      })
+      
+      socket.on('playerLeft', (response : { members: GameMembers[], waitingRoom: GameMembers[]}) => {
+        setGameMembers(response.members);
+        setGameWaitingRoom(response.waitingRoom);
+      })
+
+      socket.on('validationError', (response: {error: string}) => {
+        setError(true);
+        setErrorText(response.error)
+        setTimeout(() => {
+          setError(false);
+        }, 3000);
       })
     }
     setupSocket();
@@ -128,6 +151,7 @@ function App() {
   useEffect(() => {
     const handleHashChange = () => {
       if (window.location.hash === '') {
+        disconnectFromGame();
         hideCreateJoin();
       }
     }
@@ -137,17 +161,25 @@ function App() {
 
   // Helpers for the buttons
   const createGame = () => {
-    if (lobbyName === '' || username === '') {
-      if (!lobbyName) {
-        setLobbyError({error:true, message: "Lobby Name cannot be empty"})
-      } else {
-        setLobbyError({error:false, message: ''})
-      }
-      if (!username) {
-        setUserNameError({error:true, message: "Username cannot be empty"})
-      } else {
-        setUserNameError({error:true, message: ''})
-      }
+    let error = false;
+
+    if (!lobbyName) {
+      setLobbyError({error:true, message: "Lobby Name cannot be empty"})
+      error = true;
+    } else {
+      setLobbyError({error:false, message: ''})
+    }
+    if (!username) {
+      setUserNameError({error:true, message: "Username cannot be empty"})
+      error = true;
+    } else if (username.length > 12) {
+      setUserNameError({error:true, message: "Username maximum of 12 characters"})
+      error = true;
+    } else  {
+      setUserNameError({error:false, message: ''})
+    }
+
+    if (error) {
       return false;
     }
 
@@ -157,24 +189,46 @@ function App() {
     const createGameCredentials = { lobbyName, username, password };
     console.log('trying')
     socket.emit('createGame', createGameCredentials)
+    window.location.hash = lobbyName;
   }
   
   const joinGame = () => {
-    if (lobbyName === '' || username === '') {
-      setError(true);
-      setErrorText('Lobbyname / Username is required');
+    let error = false;
+
+    if (!lobbyName) {
+      setLobbyError({error:true, message: "Lobby Name cannot be empty"})
+      error = true;
+    } else {
+      setLobbyError({error:false, message: ''})
+    }
+    if (!username) {
+      setUserNameError({error:true, message: "Username cannot be empty"})
+      error = true;
+    } else if (username.length > 12) {
+      setUserNameError({error:true, message: "Username maximum of 12 characters"})
+      error = true;
+    } {
+      setUserNameError({error:false, message: ''})
+    }
+
+    if (error) {
       return false;
     }
 
-    setError(false);
-    setErrorText('');
     const createGameCredentials = { lobbyName, username, password };
     socket.emit('joinGame', createGameCredentials)
+    window.location.hash = lobbyName;
   }
 
   const startGame = () => {
     const createGameCredentials = { lobbyName, username };
     socket.emit('startGame', createGameCredentials)
+  }
+
+  const handleEnterSubmit = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.keyCode === 13) {
+      submitAnswer()
+    }
   }
 
   const submitAnswer = () => {
@@ -186,8 +240,13 @@ function App() {
 
     setError(false);
     setErrorText('');
+    setQuestionAnswer('');
     const createGameCredentials = { lobbyName, username, answer: questionAnswer };
     socket.emit('submitAnswer', createGameCredentials)
+  }
+
+  const disconnectFromGame = () => {
+    socket.emit('leaveGame', {lobbyName})
   }
 
   const displayCreate = () => {
@@ -214,45 +273,75 @@ function App() {
     <ThemeProvider theme={darkTheme}>
       <div className="App">
         <div style={{width: "100%"}}>
-        { (gameOwner !== username && !gameInProgress && playerInLobby) && 
-          <div> Waiting for {gameOwner} to start the game </div>
-        }
-
-        {
-          (!gameInProgress && gameAnswers[0] !== undefined) &&
-          <div style={{display: "flex", textAlign: "left", color: 'white', height: '100vh'}}>
-            {gameAnswers.map((answer) => {
-              return (
-                <ul style={{listStyleType: 'none'}}>
-                {answer.map((a) => {
-                    return <li>{a.question} - {a.answer}</li>
-                })}
-                </ul>
-              )
-            })}
-            </div>    
-        }
-
-        { gameInProgress &&
-        <div style={{flexDirection: "row", display: "flex", width: "100%", height: '100vh'}}>
-          <div className="members" style={{width: "10%"}}>
-            Players
-            <ul style={{listStyleType: 'none'}}>
-              {gameMembers.map((member) => {
-                return (
-                  <li>{member}</li>
-                )
-              })}
-            </ul>
-          </div>
-          <div style={{padding: "32px", width: "90%", boxSizing: "border-box", color: 'white'}}>
-            <div style={{fontSize: "128px", paddingBottom: "64px"}}>{currentQuestion}</div>
-            {error && <div style={{color: 'red', fontSize: "14px", margin: '12px'}}>{errorText}</div>}
-            <div className="createJoin" style={{padding: "16px", display: "flex", justifyContent: "center", alignItems: "center"}}> 
-            <TextField autoComplete="off" className="textField" required color="primary" variant="outlined" id="standard-basic" onChange={(e) => setQuestionAnswer(e.target.value) } value={questionAnswer}/>
-              <Button className="button" style={{margin: '4px'}} color="primary" onClick={() => submitAnswer()}> Submit </Button>
-            </div>
-          </div>
+        { playerInLobby &&
+          <div className="gameLobby">
+            { playerInLobby &&
+              <React.Fragment>
+                <div className="gameScreen">
+                  <div className="gameScreenHeader">
+                    <div className="gameScreenLogoContainer">
+                      <div className="gameScreenLogo">?!</div>
+                      Who<br/>What<br/>Where<br/>
+                    </div>
+                    <div className="gameScreenRound">{questionIndex === 0 ? 'Waiting for new game' :'Round' }<br/>{questionIndex !== 0 ? questionIndex : ''}</div>
+                  </div>
+                  <div className="gameScreenContainer">
+                      { (gameOwner !== username && !gameInProgress && playerInLobby) && 
+                        <div className="waitingText"> Waiting for {gameOwner} to start the game </div>
+                      }
+                      { (!gameInProgress && gameAnswers[0] !== undefined) &&
+                        <div>
+                          {gameAnswers.map((answer) => {
+                            return (
+                              <div>
+                              {answer.map((a) => {
+                                  return <li>{a.question} - {a.answer}</li>
+                              })}
+                              </div>
+                            )
+                          })}
+                          </div>    
+                      }
+                      { gameInProgress &&
+                        <React.Fragment>
+                          <div className="question">{currentQuestion}</div>
+                          {error && <div>{errorText}</div>}
+                          <div className="answerContainer"> 
+                            <TextField autoComplete="off" className="answerTextField" required color="primary" variant="outlined" id="standard-basic" onChange={(e) => setQuestionAnswer(e.target.value) } value={questionAnswer} onKeyDown={(e) => handleEnterSubmit(e)}/>
+                            <Button className="submitAnswerButton" style={{margin: '4px'}} color="primary" onClick={() => submitAnswer()}> Submit </Button>
+                          </div>
+                        </React.Fragment>
+                      }
+                      { (gameOwner !== '' && gameOwner === username && !gameInProgress) && 
+                      <div className="startButtonContainer">
+                      <Button className="startButton" color="primary" onClick={() => startGame()}> Start Game </Button>
+                      </div>
+                      }
+                  </div>
+                  <div className="gameScreenChatContainer">
+                    
+                  </div>
+                </div>
+                <div className="memberSidebar">
+                  <div className="memberSidebarTitle">Players - {gameMembers.length}</div>
+                  <div className="memberList">
+                    {gameMembers.map((member) => {
+                      return (
+                        <div className="memberItem"><img className="memberAvatar" src={member.avatar}/>{member.username}</div>
+                      )
+                    })}
+                  </div>
+                  <div className="waitingRoomSidebarTitle">Waiting Room - {gameWaitingRoom.length}</div>
+                  <div className="waitingRoomList">
+                    {gameWaitingRoom.map((member) => {
+                      return (
+                        <div className="memberItem"><img className="memberAvatar" src={member.avatar}/>{member.username}</div>
+                      )
+                    })}
+                  </div>
+                </div>
+              </React.Fragment>
+            }
           </div>
         }
 
@@ -286,7 +375,7 @@ function App() {
                     <div className="textFieldTitle">Username *</div>
                   </div>
                   <TextField autoComplete="off" className="textField" required color="primary" variant="outlined" id="standard-basic" onChange={(e) => setUserName(e.target.value) } value={username}/>
-                  <div className="textFieldError2">{lobbyError.error && lobbyError.message}</div>
+                  <div className="textFieldError2">{usernameError.error && usernameError.message}</div>
                 </div>
                   <div className="textFieldContainerSmall">
                   <div className="textFieldTags">
@@ -294,7 +383,7 @@ function App() {
                     <div className="textFieldTitle">Lobby Name *</div>
                   </div>
                   <TextField autoComplete="off" className="textField" required color="primary" variant="outlined" id="standard-basic" onChange={(e) => setLobbyName(e.target.value) } value={lobbyName}/>
-                  <div className="textFieldError2">{usernameError.error && usernameError.message}</div>
+                  <div className="textFieldError2">{lobbyError.error && lobbyError.message}</div>
                 </div>
                   <div className="textFieldContainerSmall">
                   <div className="textFieldTags">
@@ -320,7 +409,7 @@ function App() {
                     <div className="textFieldTitle">Username *</div>
                   </div>
                   <TextField autoComplete="off" className="textField" required color="primary" variant="outlined" id="standard-basic" onChange={(e) => setUserName(e.target.value) } value={username}/>
-                  <div className="textFieldError2">{lobbyError.error && lobbyError.message}</div>
+                  <div className="textFieldError2">{usernameError.error && usernameError.message}</div>
                 </div>
                 <div className="textFieldContainer">
                   <div className="textFieldTags">
@@ -328,7 +417,7 @@ function App() {
                     <div className="textFieldTitle">Lobby Name *</div>
                   </div>
                   <TextField autoComplete="off" className="textField" required color="primary" variant="outlined" id="standard-basic" onChange={(e) => setLobbyName(e.target.value) } value={lobbyName}/>
-                  <div className="textFieldError2">{usernameError.error && usernameError.message}</div>
+                  <div className="textFieldError2">{lobbyError.error && lobbyError.message}</div>
                 </div>
                 <div className="textFieldContainer">
                   <div className="textFieldTags">
@@ -339,13 +428,13 @@ function App() {
                   <div className="textFieldError2">{passwordError.error && passwordError.message}</div>
                 </div>             
                 <div className="createJoinButtonsContainer">
-                  {error && <div style={{color: 'red', fontSize: "14px", margin: '12px'}}>{errorText}</div>}
+                  <div style={{color: '#ecbebe', fontSize: "14px", minHeight: '18px', opacity: error ? '1' : '0', transition: 'opacity 0.5s'}}>{errorText}</div>}
                   <Button className="createButton" color="primary" onClick={() => createGame()}> Create Game </Button>
                   <Button className="joinButton" color="primary" onClick={() => joinGame()}> Join Game </Button>
                 </div>
                 
                 <div className="createJoinButtonsContainerSmall">
-                  {error && <div style={{color: 'red', fontSize: "14px", margin: '12px'}}>{errorText}</div>}
+                  {error && <div style={{color: '#ecbebe', fontSize: "14px", minHeight: '18px', opacity: error ? '1' : '0', transition: 'opacity 0.5s'}}>{errorText}</div>}
                   <Button className="createButton" color="primary" onClick={() => displayCreate()}> Create Game </Button>
                   <Button className="joinButton" color="primary" onClick={() => displayJoin()}> Join Game </Button>
                 </div>
@@ -356,10 +445,6 @@ function App() {
 
           </div>
         }       
-
-        { (gameOwner !== '' && gameOwner === username && !gameInProgress) && 
-          <Button className="button" style={{margin: '4px'}} color="primary" onClick={() => startGame()}> Start Game </Button>
-        }
   
         </div>
       </div>
