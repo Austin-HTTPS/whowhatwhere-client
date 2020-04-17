@@ -1,27 +1,27 @@
 {
   "files": {
-    "main.css": "/static/css/main.50cc12f6.chunk.css",
-    "main.js": "/static/js/main.a5cc6152.chunk.js",
-    "main.js.map": "/static/js/main.a5cc6152.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.cfae3202.js",
-    "runtime-main.js.map": "/static/js/runtime-main.cfae3202.js.map",
-    "static/js/2.9be2ec1e.chunk.js": "/static/js/2.9be2ec1e.chunk.js",
-    "static/js/2.9be2ec1e.chunk.js.map": "/static/js/2.9be2ec1e.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.1d71d2676dbf5afac2a5c4067748af26.js": "/precache-manifest.1d71d2676dbf5afac2a5c4067748af26.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/main.50cc12f6.chunk.css.map": "/static/css/main.50cc12f6.chunk.css.map",
-    "static/js/2.9be2ec1e.chunk.js.LICENSE.txt": "/static/js/2.9be2ec1e.chunk.js.LICENSE.txt",
-    "static/media/App.css": "/static/media/Roboto-Regular.11eabca2.ttf",
-    "static/media/lobby.svg": "/static/media/lobby.d10239bd.svg",
-    "static/media/password.svg": "/static/media/password.1b3f94dc.svg",
-    "static/media/question.svg": "/static/media/question.a2bcb8f5.svg",
-    "static/media/user.svg": "/static/media/user.7de5e5f7.svg"
+    "main.css": "/whowhatwhere-client/static/css/main.7ba94be6.chunk.css",
+    "main.js": "/whowhatwhere-client/static/js/main.a5cc6152.chunk.js",
+    "main.js.map": "/whowhatwhere-client/static/js/main.a5cc6152.chunk.js.map",
+    "runtime-main.js": "/whowhatwhere-client/static/js/runtime-main.c728146d.js",
+    "runtime-main.js.map": "/whowhatwhere-client/static/js/runtime-main.c728146d.js.map",
+    "static/js/2.2fac7085.chunk.js": "/whowhatwhere-client/static/js/2.2fac7085.chunk.js",
+    "static/js/2.2fac7085.chunk.js.map": "/whowhatwhere-client/static/js/2.2fac7085.chunk.js.map",
+    "index.html": "/whowhatwhere-client/index.html",
+    "precache-manifest.5b631d9b276b3c4ea98e30927172fad9.js": "/whowhatwhere-client/precache-manifest.5b631d9b276b3c4ea98e30927172fad9.js",
+    "service-worker.js": "/whowhatwhere-client/service-worker.js",
+    "static/css/main.7ba94be6.chunk.css.map": "/whowhatwhere-client/static/css/main.7ba94be6.chunk.css.map",
+    "static/js/2.2fac7085.chunk.js.LICENSE.txt": "/whowhatwhere-client/static/js/2.2fac7085.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/whowhatwhere-client/static/media/Roboto-Regular.11eabca2.ttf",
+    "static/media/lobby.svg": "/whowhatwhere-client/static/media/lobby.d10239bd.svg",
+    "static/media/password.svg": "/whowhatwhere-client/static/media/password.1b3f94dc.svg",
+    "static/media/question.svg": "/whowhatwhere-client/static/media/question.a2bcb8f5.svg",
+    "static/media/user.svg": "/whowhatwhere-client/static/media/user.7de5e5f7.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.cfae3202.js",
-    "static/js/2.9be2ec1e.chunk.js",
-    "static/css/main.50cc12f6.chunk.css",
+    "static/js/runtime-main.c728146d.js",
+    "static/js/2.2fac7085.chunk.js",
+    "static/css/main.7ba94be6.chunk.css",
     "static/js/main.a5cc6152.chunk.js"
   ]
 }
