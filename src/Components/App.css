@@ -31,6 +31,9 @@ body {
   text-align: center;
   background-color: #000000;
   font-family: RedHatBold !important;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
 }
 
 .gameLobbyNameFieldInput {
@@ -43,7 +46,7 @@ body {
 
 .createOrJoinLobbyContainer {
   display: flex;
-  height: 100vh;
+  height: 100%;
   padding: 128px;
   box-sizing: border-box;
 }
@@ -77,7 +80,7 @@ body {
   justify-content: center;
   align-items: center;
   display: flex;
-  color: #9fc7de;
+  color: #7cd0ff;
   font-size: 200px;
   font-family: RedHatBlack;
   padding-right: 64px;
@@ -85,7 +88,7 @@ body {
 
 .introIcon svg {
   font-size: 220px;
-  color: #9fc7de;
+  color: #7cd0ff;
 }
 
 .introTitle {
@@ -120,12 +123,22 @@ body {
 }
 
 .divider {
-  background-color: #9fc7de;
+  background-color: #7cd0ff;
   border-radius: 8px;
   position: absolute;
   right: 0;
   height: 100%;
-  width: 8px;
+  width: 6px;
+}
+
+.dividerSmall {
+  background-color: #7cd0ff;
+  border-radius: 8px;
+  position: relative;
+  right: 0;
+  height: 6px;
+  width: 100%;
+  margin-bottom: 32px;
 }
 
 .createOrJoinSection {
@@ -146,6 +159,9 @@ body {
   padding-top: 24px;
   box-sizing: border-box;
 }
+.createJoinButtonsContainerSmall {
+  display: none;
+}
 
 .textFieldContainer {
   display: flex;
@@ -156,6 +172,42 @@ body {
   flex-wrap: wrap;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+.textFieldSmallContainer {
+  position: relative;
+}
+
+.textFieldContainerSmall {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.backArrow {
+  position: absolute;
+  left: 0%;
+  top: -6px;
+  font-size: 32px;
+  color: #3c81b9;
+}
+
+.textFieldContainerSmall .textField input {
+  height: 0px;
+  padding: 16.5px 12px;
+}
+
+.textFieldContainerSmall .textFieldIcon {
+  height: 26px;
+  padding-right: 20px;
+}
+
+.textFieldContainerSmall .textFieldTitle {
+  font-size: 14px;
 }
 
 .textField {
@@ -198,6 +250,7 @@ body {
   font-size: 13px;
   font-family: RedHat;
   padding-top: 4px;
+  padding-bottom: 4px;
   padding-left: 45%;
 }
 
@@ -225,12 +278,12 @@ body {
 .createButton {
   width: 30% !important;
   margin: 12px !important;
-  background-color: #9fc7de !important;
+  background-color: #7cd0ff !important;
   color: black !important;
   font-weight: bold !important;
   font-family: RedHat !important;
   text-transform: none !important;
-  border: 3px solid #9fc7de !important;
+  border: 3px solid #7cd0ff !important;
   border-radius: 22px !important;
   font-size: 15px !important;
 }
@@ -240,7 +293,46 @@ body {
   margin: 12px !important;
   background-color: #000000 !important;
   color: white !important;
-  border: 3px solid #9fc7de !important;
+  border: 3px solid #7cd0ff !important;
+  font-weight: bold !important;
+  font-family: RedHat !important;
+  text-transform: none !important;
+  border-radius: 22px !important;
+  font-size: 15px !important;
+}
+
+.createButtonSmall {
+  width: 70% !important;
+  margin: 12px !important;
+  background-color: #7cd0ff !important;
+  color: black !important;
+  font-weight: bold !important;
+  font-family: RedHat !important;
+  text-transform: none !important;
+  border: 3px solid #7cd0ff !important;
+  border-radius: 22px !important;
+  font-size: 15px !important;
+  margin-top: 8px !important;
+}
+
+.joinButtonSmall {
+  width: 70% !important;
+  margin: 12px !important;
+  background-color: #7cd0ff !important;
+  color: black !important;
+  font-weight: bold !important;
+  font-family: RedHat !important;
+  text-transform: none !important;
+  border: 3px solid #7cd0ff !important;
+  border-radius: 22px !important;
+  font-size: 15px !important;
+}
+.hideButtonSmall {
+  width: 70% !important;
+  margin: 12px !important;
+  background-color: #000000 !important;
+  color: white !important;
+  border: 3px solid #7cd0ff !important;
   font-weight: bold !important;
   font-family: RedHat !important;
   text-transform: none !important;
@@ -278,14 +370,17 @@ body {
 @media (max-width: 1270px) {
   .createOrJoinLobbyContainer {
     flex-wrap: wrap;
-    height: auto;
+    padding: 32px;
+  }
+  .textFieldContainer {
+    display: none;
   }
   .textFieldError2 {
     padding-left: 35%;
   }
   .divider {
     bottom: 0;
-    height: 8px;
+    height: 6px;
     width: 100%;
   }
   .createJoin {
@@ -294,6 +389,7 @@ body {
   .introTitleContainer {
     height: auto;
     padding: 16px;
+    padding-bottom: 32px;
   }
   .introContent {
     height: auto;
@@ -301,17 +397,31 @@ body {
   }
   .introductionSection {
     width: 100%;
-    padding-bottom: 64px;
   }
   .createOrJoinSection {
     width: 100%;
-    padding-top: 64px;
+    padding-top: 32px;
   }
   .textFieldTags {
     width: 35%;
   }
   .textFieldError {
     width: 35%;
+  }
+  .createJoinButtonsContainer {
+    display: none;
+  }
+  .createJoinButtonsContainerSmall {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-top: 0px;
+  }
+  .joinButton {
+    flex-basis: 50%;
+  }
+  .createButton {
+    flex-basis: 50%;
   }
 }
 
@@ -323,7 +433,7 @@ body {
 }
 
 /* Small-Small Screen */
-@media (max-width: 762px) {
+@media (max-width: 750px) {
   .textFieldTags {
     width: 45%;
   }
@@ -338,7 +448,25 @@ body {
 /* Small - Extra Small */
 @media (max-width: 650px) {
   .createOrJoinLobbyContainer {
-    padding: 24px;
+    height: 100%;
+  }
+  .introTitleContainer {
+    padding-bottom: 8px;
+  }
+  .introContent {
+    font-size: 16px;
+    padding-top: 8px;
+    padding-bottom: 24px;
+    line-height: 24px;
+  }
+  .introductionSection {
+    padding: 8px;
+  }
+  .createOrJoinSection {
+    padding-top: 24px;
+  }
+  .createOrJoinLobbyContainer {
+    padding: 8px;
   }
   .textFieldError {
     width: 100%;
@@ -348,12 +476,6 @@ body {
     padding-left: 0%;
   }
 
-  .createJoinButtonsContainer {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    padding-top: 0px;
-  }
   .joinButton {
     flex-basis: 70%;
   }
@@ -383,5 +505,32 @@ body {
   }
   .textField {
     flex-basis: 70%;
+  }
+}
+
+/* Specific Devices Height hackfix */
+/* Ipad */
+@media (height: 1024px) and (width: 768px) {
+  .App {
+    height: 100vh;
+  }
+  .createOrJoinLobbyContainer {
+    height: 100vh;
+  }
+}
+
+/* Ipad Pro */
+@media (height: 1366px) and (width: 1024px) {
+  .App {
+    height: 100vh;
+  }
+  .createOrJoinLobbyContainer {
+    height: 100vh;
+  }
+}
+
+@media (min-height: 300px) and (max-height: 700px) and (max-width: 650px) {
+  .App {
+    height: 100%;
   }
 }

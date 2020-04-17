@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import {TextField, Button } from '@material-ui/core';
+import {TextField, Button, Fab } from '@material-ui/core';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import io from 'socket.io-client';
 import UserIcon from '../icons/user.svg';
 import LobbyIcon from '../icons/lobby.svg';
 import PasswordIcon from '../icons/password.svg';
 import QuestionIcon from '../icons/question.svg';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const darkTheme = createMuiTheme({
   palette: {
@@ -43,6 +44,12 @@ function App() {
   const [usernameError, setUserNameError] = useState({error: false, message: ''});
   const [passwordError, setPasswordError] = useState({error: false, message: ''});
 
+
+  const [showJoin, setShowJoin] = useState(false);
+  const [showCreate, setShowCreate] = useState(false);
+  const [showFields, setShowFields] = useState(false);
+
+  // Socket listener
   useEffect(() => {
     const setupSocket = async () => {
       socket = io('https://lb.ltng.link');
@@ -104,7 +111,31 @@ function App() {
     setupSocket();
   }, [])
 
+  // Deal with resize, to fix the garbage css
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 1270) {
+        setShowCreate(false);
+        setShowJoin(false);
+        setShowFields(false);
+      }
+    }
 
+    window.addEventListener('resize', handleResize);
+  }, []);
+
+  // Deal with hash change, hackfix back button phone
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (window.location.hash === '') {
+        hideCreateJoin();
+      }
+    }
+
+    window.addEventListener('hashchange', handleHashChange);
+  }, []);
+
+  // Helpers for the buttons
   const createGame = () => {
     if (lobbyName === '' || username === '') {
       if (!lobbyName) {
@@ -158,6 +189,26 @@ function App() {
     const createGameCredentials = { lobbyName, username, answer: questionAnswer };
     socket.emit('submitAnswer', createGameCredentials)
   }
+
+  const displayCreate = () => {
+    window.location.hash = '#createGame'
+    setShowCreate(true);
+    setShowFields(true);
+  }
+
+  const displayJoin = () => {
+    window.location.hash = '#joinGame'
+    setShowJoin(true);
+    setShowFields(true);
+  }
+
+  const hideCreateJoin = () => {
+    window.location.hash = ''
+    setShowCreate(false);
+    setShowJoin(false);
+    setShowFields(false);
+  }
+
   
   return (
     <ThemeProvider theme={darkTheme}>
@@ -213,6 +264,9 @@ function App() {
                 <img className="introIcon" src={QuestionIcon} />
                 <div className="introTitle">Who What Where</div>
               </div>
+              { showFields && <div className="dividerSmall"></div> }
+              { !showFields &&
+              <React.Fragment>
               <div className="introContent"> 
                 An Interactive Story building game to play with friends. <br/><br/>
                 Challenge your friends to a game of Who, What, Where? An Ad-libs inspired interactive story building game 
@@ -220,8 +274,44 @@ function App() {
                 <div className="extraPlayerText">Best played with 3-9 players </div>
               </div>
               <div className="divider"></div>
+              </React.Fragment>
+              }
+              { showFields && 
+                <div className="textFieldSmallContainer">
+                  <div className="backArrow">
+                  </div>
+                  <div className="textFieldContainerSmall">
+                  <div className="textFieldTags">
+                    <img className="textFieldIcon" src={UserIcon} />
+                    <div className="textFieldTitle">Username *</div>
+                  </div>
+                  <TextField autoComplete="off" className="textField" required color="primary" variant="outlined" id="standard-basic" onChange={(e) => setUserName(e.target.value) } value={username}/>
+                  <div className="textFieldError2">{lobbyError.error && lobbyError.message}</div>
+                </div>
+                  <div className="textFieldContainerSmall">
+                  <div className="textFieldTags">
+                  <img className="textFieldIcon" src={LobbyIcon} />
+                    <div className="textFieldTitle">Lobby Name *</div>
+                  </div>
+                  <TextField autoComplete="off" className="textField" required color="primary" variant="outlined" id="standard-basic" onChange={(e) => setLobbyName(e.target.value) } value={lobbyName}/>
+                  <div className="textFieldError2">{usernameError.error && usernameError.message}</div>
+                </div>
+                  <div className="textFieldContainerSmall">
+                  <div className="textFieldTags">
+                    <img className="textFieldIcon" src={PasswordIcon} />
+                    <div className="textFieldTitle">Password</div>
+                  </div>
+                  <TextField autoComplete="off" type="password" className="textField" color="primary" variant="outlined" id="standard-basic" onChange={(e) => setPassword(e.target.value) } value={password}/>
+                  <div className="textFieldError2">{passwordError.error && passwordError.message}</div>
+                </div>  
+                  { showCreate && <Button className="createButtonSmall" color="primary" onClick={() => createGame()}> Create Game </Button> }
+                  { showJoin && <Button className="joinButtonSmall" color="primary" onClick={() => joinGame()}> Join Game </Button> }
+                </div>
+              }
+              
             </div> 
 
+            {!showFields && 
             <div className="createOrJoinSection">
               <div className="createJoin"> 
                 <div className="textFieldContainer">
@@ -253,8 +343,16 @@ function App() {
                   <Button className="createButton" color="primary" onClick={() => createGame()}> Create Game </Button>
                   <Button className="joinButton" color="primary" onClick={() => joinGame()}> Join Game </Button>
                 </div>
+                
+                <div className="createJoinButtonsContainerSmall">
+                  {error && <div style={{color: 'red', fontSize: "14px", margin: '12px'}}>{errorText}</div>}
+                  <Button className="createButton" color="primary" onClick={() => displayCreate()}> Create Game </Button>
+                  <Button className="joinButton" color="primary" onClick={() => displayJoin()}> Join Game </Button>
+                </div>
+                
               </div>
             </div>
+            }
 
           </div>
         }       
