@@ -1,27 +1,27 @@
 {
   "files": {
-    "main.css": "/whowhatwhere-client/static/css/main.7ba94be6.chunk.css",
-    "main.js": "/whowhatwhere-client/static/js/main.d8a61352.chunk.js",
-    "main.js.map": "/whowhatwhere-client/static/js/main.d8a61352.chunk.js.map",
-    "runtime-main.js": "/whowhatwhere-client/static/js/runtime-main.c728146d.js",
-    "runtime-main.js.map": "/whowhatwhere-client/static/js/runtime-main.c728146d.js.map",
-    "static/js/2.1ea93ce8.chunk.js": "/whowhatwhere-client/static/js/2.1ea93ce8.chunk.js",
-    "static/js/2.1ea93ce8.chunk.js.map": "/whowhatwhere-client/static/js/2.1ea93ce8.chunk.js.map",
-    "index.html": "/whowhatwhere-client/index.html",
-    "precache-manifest.0f0c891cc32d735d0cb3c087d3447cb0.js": "/whowhatwhere-client/precache-manifest.0f0c891cc32d735d0cb3c087d3447cb0.js",
-    "service-worker.js": "/whowhatwhere-client/service-worker.js",
-    "static/css/main.7ba94be6.chunk.css.map": "/whowhatwhere-client/static/css/main.7ba94be6.chunk.css.map",
-    "static/js/2.1ea93ce8.chunk.js.LICENSE.txt": "/whowhatwhere-client/static/js/2.1ea93ce8.chunk.js.LICENSE.txt",
-    "static/media/App.css": "/whowhatwhere-client/static/media/Roboto-Regular.11eabca2.ttf",
-    "static/media/lobby.svg": "/whowhatwhere-client/static/media/lobby.d10239bd.svg",
-    "static/media/password.svg": "/whowhatwhere-client/static/media/password.1b3f94dc.svg",
-    "static/media/question.svg": "/whowhatwhere-client/static/media/question.a2bcb8f5.svg",
-    "static/media/user.svg": "/whowhatwhere-client/static/media/user.7de5e5f7.svg"
+    "main.css": "/static/css/main.0ea283c7.chunk.css",
+    "main.js": "/static/js/main.25fb67f5.chunk.js",
+    "main.js.map": "/static/js/main.25fb67f5.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.cfae3202.js",
+    "runtime-main.js.map": "/static/js/runtime-main.cfae3202.js.map",
+    "static/js/2.c044f40a.chunk.js": "/static/js/2.c044f40a.chunk.js",
+    "static/js/2.c044f40a.chunk.js.map": "/static/js/2.c044f40a.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.0c0ce29c844258139cc1124ce6190374.js": "/precache-manifest.0c0ce29c844258139cc1124ce6190374.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.0ea283c7.chunk.css.map": "/static/css/main.0ea283c7.chunk.css.map",
+    "static/js/2.c044f40a.chunk.js.LICENSE.txt": "/static/js/2.c044f40a.chunk.js.LICENSE.txt",
+    "static/media/App.css": "/static/media/Roboto-Regular.11eabca2.ttf",
+    "static/media/lobby.svg": "/static/media/lobby.d10239bd.svg",
+    "static/media/password.svg": "/static/media/password.1b3f94dc.svg",
+    "static/media/question.svg": "/static/media/question.a2bcb8f5.svg",
+    "static/media/user.svg": "/static/media/user.7de5e5f7.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.c728146d.js",
-    "static/js/2.1ea93ce8.chunk.js",
-    "static/css/main.7ba94be6.chunk.css",
-    "static/js/main.d8a61352.chunk.js"
+    "static/js/runtime-main.cfae3202.js",
+    "static/js/2.c044f40a.chunk.js",
+    "static/css/main.0ea283c7.chunk.css",
+    "static/js/main.25fb67f5.chunk.js"
   ]
 }
