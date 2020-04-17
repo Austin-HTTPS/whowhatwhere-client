@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2abd10ae6470dc02b4c01607eda96c86",
+    "revision": "6a5bd219578bb612359fb8f851aeebdf",
     "url": "/whowhatwhere-client/index.html"
   },
   {
-    "revision": "b95d0cdf540214bdd884",
+    "revision": "664bb88fcf6fd9dc1dc4",
     "url": "/whowhatwhere-client/static/css/main.7ba94be6.chunk.css"
   },
   {
-    "revision": "8ea886fba0a4385e4597",
-    "url": "/whowhatwhere-client/static/js/2.2fac7085.chunk.js"
+    "revision": "d6d22021749461e60310",
+    "url": "/whowhatwhere-client/static/js/2.1ea93ce8.chunk.js"
   },
   {
     "revision": "3be25bf51018a491ef7f73dfd2dd74c4",
-    "url": "/whowhatwhere-client/static/js/2.2fac7085.chunk.js.LICENSE.txt"
+    "url": "/whowhatwhere-client/static/js/2.1ea93ce8.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "b95d0cdf540214bdd884",
-    "url": "/whowhatwhere-client/static/js/main.f588e8c7.chunk.js"
+    "revision": "664bb88fcf6fd9dc1dc4",
+    "url": "/whowhatwhere-client/static/js/main.d8a61352.chunk.js"
   },
   {
     "revision": "5177dbb6ed638c012b6e",

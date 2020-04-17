@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/whowhatwhere-client/precache-manifest.63af8770bcace2cba8d8ed60385d78eb.js"
+  "/whowhatwhere-client/precache-manifest.0f0c891cc32d735d0cb3c087d3447cb0.js"
 );
 
 self.addEventListener('message', (event) => {
